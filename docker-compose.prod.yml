@@ -6,5 +6,6 @@ services:
   api:
     environment:
       - DEMO_MODE=false
+      - PORTA_SERIAL=/dev/ttyACM0
     devices:
       - /dev/ttyACM0:/dev/ttyACM0
