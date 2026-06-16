@@ -104,12 +104,13 @@ function reducer(state: ParkingState, action: Action): ParkingState {
 function getBaseUrl(): string {
   if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
   if (import.meta.env.DEV) return "http://localhost:5000";
-  return `http://${window.location.hostname}:5000`;
+  return `${window.location.protocol}//${window.location.host}`;
 }
 
 function getWsUrl(): string {
-  const base = getBaseUrl().replace(/^http/, "ws");
-  return `${base}/ws`;
+  const wsProtocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+  if (import.meta.env.DEV) return "ws://localhost:5000/ws";
+  return `${wsProtocol}//${window.location.host}/ws`;
 }
 
 export function useParkingStore() {
