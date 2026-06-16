@@ -1,8 +1,6 @@
-"""
-banco_dados.py — Wrapper SQLite para o Smart Parking
-Tabelas conforme CLAUDE.md §7: historico, eventos, estatisticas_diarias
-"""
 
+
+import os
 import sqlite3
 import logging
 import threading
@@ -11,7 +9,7 @@ from typing import Optional
 
 logger = logging.getLogger(__name__)
 
-DB_PATH = "parking.db"
+DB_PATH = os.path.join(os.environ.get("DATA_DIR", "."), "parking.db")
 
 # DDL — idêntico ao especificado no CLAUDE.md §7
 _DDL = """

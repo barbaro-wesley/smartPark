@@ -1,0 +1,17 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY python_api/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY python_api/ .
+COPY docker-entrypoint.sh /entrypoint.sh
+# Remove CRLF caso o arquivo seja editado no Windows
+RUN sed -i 's/\r$//' /entrypoint.sh && chmod +x /entrypoint.sh
+
+ENV DATA_DIR=/data
+
+EXPOSE 5000
+
+ENTRYPOINT ["/entrypoint.sh"]

@@ -1,7 +1,4 @@
-"""
-motor_regras.py — Motor de regras e sistema de alertas
-Condições conforme CLAUDE.md §7, tabela de alertas automáticos
-"""
+
 
 import logging
 import time

@@ -9,6 +9,7 @@ Uso:
 
 import argparse
 import logging
+import os
 import signal
 import sys
 import threading
@@ -23,13 +24,14 @@ from websocket_manager import WebSocketManager
 
 # ── Logging ───────────────────────────────────────────────────────────────
 
+_LOG_DIR = os.environ.get("DATA_DIR", ".")
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)-8s] %(name)s — %(message)s",
     datefmt="%H:%M:%S",
     handlers=[
         logging.StreamHandler(sys.stdout),
-        logging.FileHandler("parking.log", encoding="utf-8"),
+        logging.FileHandler(os.path.join(_LOG_DIR, "parking.log"), encoding="utf-8"),
     ],
 )
 logger = logging.getLogger("main")

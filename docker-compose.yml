@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    expose:
+      - "5000"
+    volumes:
+      - parking_data:/data
+    environment:
+      - DEMO_MODE=true
+      - DATA_DIR=/data
+    restart: unless-stopped
+
+volumes:
+  parking_data:

@@ -1,7 +1,4 @@
-"""
-flask_app.py — Servidor HTTP + WebSocket do Smart Parking
-Endpoints conforme CLAUDE.md §7
-"""
+
 
 import logging
 import os

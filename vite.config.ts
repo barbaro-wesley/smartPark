@@ -27,7 +27,7 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: "../raspberry/static",  // Build vai direto para a pasta do Flask
+    outDir: "dist",
     emptyOutDir: true,
   },
 });

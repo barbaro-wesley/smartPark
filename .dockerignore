@@ -1,0 +1,8 @@
+node_modules/
+.git/
+dist/
+python_api/__pycache__/
+python_api/parking.db
+python_api/parking.db-shm
+python_api/parking.db-wal
+python_api/parking.log

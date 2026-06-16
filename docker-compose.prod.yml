@@ -1,0 +1,12 @@
+version: '3.8'
+
+# Sobrescreve o docker-compose.yml para uso com Arduino físico.
+# Uso: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+services:
+  api:
+    environment:
+      - DEMO_MODE=false
+      # - PORTA_SERIAL=/dev/ttyACM0   # descomente se usar ACM
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
