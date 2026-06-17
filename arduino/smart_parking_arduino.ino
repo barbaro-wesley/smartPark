@@ -318,7 +318,7 @@ void tentarEntrada(String uid) {
   salvarCartao(uid);
   fluxoTotal++;
 
-  Serial.println("Entrada liberada");
+  Serial.println("EVT:entrada|Entrada liberada");
 
   mostrarMensagem(
     "Entrada liberada",
@@ -336,7 +336,7 @@ void liberarSaida(
   String uid,
   int posicao
 ) {
-  Serial.println("Saida liberada");
+  Serial.println("EVT:saida|Saida liberada");
 
   mostrarMensagem(
     "Saida liberada",
@@ -353,7 +353,7 @@ void liberarSaida(
 
 // Mostra que o estacionamento está cheio
 void negarEntrada() {
-  Serial.println("Entrada negada");
+  Serial.println("EVT:lotado|Entrada negada");
 
   mostrarMensagem(
     "Entrada negada",
