@@ -245,6 +245,8 @@ class SerialReader(threading.Thread):
 
             with self._lock:
                 self._status_atual = status
+                self._carros_dentro = status.ocupado
+                self._fluxo = status.fluxo
 
             self._on_status(status)
 

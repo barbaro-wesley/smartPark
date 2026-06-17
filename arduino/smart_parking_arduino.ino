@@ -53,6 +53,23 @@ const unsigned long TEMPO_ENTRE_LEITURAS = 2500;
 
 unsigned long ultimaAtualizacaoLCD = 0;
 
+bool estadoAnterior[TOTAL_VAGAS] = {false, false};
+int fluxoTotal = 0;
+unsigned long ultimoEnvioStatus = 0;
+
+
+void enviarStatus() {
+  int livre = contarVagasLivres();
+  Serial.print("V1:");
+  Serial.print(vagasOcupadas[0] ? 1 : 0);
+  Serial.print(",V2:");
+  Serial.print(vagasOcupadas[1] ? 1 : 0);
+  Serial.print(",V3:0,V4:0,LIVRE:");
+  Serial.print(livre);
+  Serial.print(",FLUXO:");
+  Serial.println(fluxoTotal);
+}
+
 
 void setup() {
   Serial.begin(9600);
@@ -84,7 +101,7 @@ void setup() {
   atualizarLeds();
   atualizarLCD();
 
-  Serial.println("Sistema iniciado");
+  Serial.println("SISTEMA:OK");
 }
 
 
@@ -95,6 +112,11 @@ void loop() {
   if (millis() - ultimaAtualizacaoLCD >= 800) {
     atualizarLCD();
     ultimaAtualizacaoLCD = millis();
+  }
+
+  if (millis() - ultimoEnvioStatus >= 1000) {
+    enviarStatus();
+    ultimoEnvioStatus = millis();
   }
 
   verificarCartao();
@@ -111,10 +133,19 @@ void lerVagas() {
       pinosEcho[i]
     );
 
-    vagasOcupadas[i] =
-      distancia > 0 &&
-      distancia <= DISTANCIA_OCUPADA;
+    bool ocupada = distancia > 0 && distancia <= DISTANCIA_OCUPADA;
 
+    if (ocupada != estadoAnterior[i]) {
+      estadoAnterior[i] = ocupada;
+      if (ocupada) {
+        Serial.println("EVT:ocupada|Vaga " + String(i + 1) + " ocupada");
+      } else {
+        Serial.println("EVT:liberada|Vaga " + String(i + 1) + " liberada");
+      }
+      enviarStatus();
+    }
+
+    vagasOcupadas[i] = ocupada;
     delay(50);
   }
 }
@@ -285,6 +316,7 @@ void tentarEntrada(String uid) {
   }
 
   salvarCartao(uid);
+  fluxoTotal++;
 
   Serial.println("Entrada liberada");
 
