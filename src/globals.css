@@ -16,6 +16,8 @@
 
   body {
     @apply bg-zinc-950 text-zinc-100;
+    background-image:
+      radial-gradient(ellipse 100% 40% at 50% -5%, rgba(59,130,246,0.06) 0%, transparent 70%);
   }
 
   /* Scrollbar customizado */

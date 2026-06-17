@@ -8,63 +8,58 @@ interface ConnectionBadgeProps {
   arduinoConectado: boolean;
 }
 
-const WS_LABELS: Record<ParkingState["wsStatus"], string> = {
-  connecting: "Conectando...",
-  connected: "Online",
-  disconnected: "Desconectado",
-  error: "Erro",
-};
-
-export function ConnectionBadge({
-  wsStatus,
-  arduinoConectado,
-}: ConnectionBadgeProps) {
+export function ConnectionBadge({ wsStatus, arduinoConectado }: ConnectionBadgeProps) {
   const wsOnline = wsStatus === "connected";
+  const wsConnecting = wsStatus === "connecting";
 
   return (
-    <div className="flex items-center gap-3 text-xs font-mono">
-      {/* WebSocket */}
+    <div className="flex items-center gap-2 text-xs font-mono">
+      {/* WebSocket / Servidor */}
       <span
         className={cn(
-          "flex items-center gap-1.5 px-2.5 py-1 rounded-full border",
+          "flex items-center gap-1.5 px-2.5 py-1 rounded-full border transition-colors duration-300",
           wsOnline
             ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-400"
-            : wsStatus === "connecting"
+            : wsConnecting
             ? "border-amber-500/40 bg-amber-500/10 text-amber-400"
             : "border-red-500/40 bg-red-500/10 text-red-400"
         )}
-        aria-label={`WebSocket: ${WS_LABELS[wsStatus]}`}
+        aria-label={`Servidor: ${wsOnline ? "online" : wsConnecting ? "conectando" : "offline"}`}
       >
         <span
           className={cn(
-            "w-1.5 h-1.5 rounded-full",
+            "w-1.5 h-1.5 rounded-full shrink-0",
             wsOnline
               ? "bg-emerald-400 animate-pulse"
-              : wsStatus === "connecting"
+              : wsConnecting
               ? "bg-amber-400 animate-pulse"
               : "bg-red-400"
           )}
         />
-        WS · {WS_LABELS[wsStatus]}
+        <span className="hidden sm:inline">
+          Servidor ·{" "}
+        </span>
+        {wsOnline ? "Online" : wsConnecting ? "Conectando…" : "Offline"}
       </span>
 
-      {/* Arduino */}
+      {/* Arduino / Hardware */}
       <span
         className={cn(
-          "flex items-center gap-1.5 px-2.5 py-1 rounded-full border",
+          "flex items-center gap-1.5 px-2.5 py-1 rounded-full border transition-colors duration-300",
           arduinoConectado
             ? "border-sky-500/40 bg-sky-500/10 text-sky-400"
             : "border-red-500/40 bg-red-500/10 text-red-400"
         )}
-        aria-label={`Arduino: ${arduinoConectado ? "conectado" : "desconectado"}`}
+        aria-label={`Hardware: ${arduinoConectado ? "conectado" : "desconectado"}`}
       >
         <span
           className={cn(
-            "w-1.5 h-1.5 rounded-full",
-            arduinoConectado ? "bg-sky-400" : "bg-red-400"
+            "w-1.5 h-1.5 rounded-full shrink-0",
+            arduinoConectado ? "bg-sky-400 animate-pulse" : "bg-red-400"
           )}
         />
-        Arduino · {arduinoConectado ? "OK" : "Offline"}
+        <span className="hidden sm:inline">Hardware · </span>
+        {arduinoConectado ? "OK" : "Offline"}
       </span>
     </div>
   );

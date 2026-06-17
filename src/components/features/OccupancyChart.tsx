@@ -41,8 +41,8 @@ export function OccupancyChart({ historico }: OccupancyChartProps) {
     const chartW = W - PADDING.left - PADDING.right;
     const chartH = H - PADDING.top - PADDING.bottom;
 
-    // Máximo = 4 vagas
-    const MAX_VAL = 4;
+    // Máximo = 2 vagas
+    const MAX_VAL = 2;
 
     const BAR_GAP = 2;
     const barW = Math.max(4, chartW / historico.length - BAR_GAP);
